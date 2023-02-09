@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 12:58:56 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/08 10:43:58 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/09 10:41:57 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,24 @@ void	*ph_philo_start(void *void_philo)
 	t_philo	*philo;
 
 	philo = (t_philo *)void_philo;
-	philo->last_meal = ph_clock_timestamp(phdata);
+	if (-1 == philo->time_to_think)
+		return (ph_philo_soliloquy(philo));
 	return (ph_philo_symposium(philo));
+}
+
+void	*ph_philo_soliloquy(t_philo *philo)
+{
+	while (ph_clock_running(philo->phdata))
+		usleep(100);
+	return (NULL);
+}
+
+void	*ph_philo_quit(t_philo *philo, int i)
+{
+	if (i == 2)
+		pthread_mutex_unlock(ph_forks_second(philo));
+	pthread_mutex_unlock(ph_forks_first(philo));
+	return (NULL);
 }
 
 void	*ph_philo_symposium(t_philo *philo)
@@ -27,52 +43,18 @@ void	*ph_philo_symposium(t_philo *philo)
 	{
 		pthread_mutex_lock(ph_forks_first(philo));
 		if (ph_utils_printmsg(philo->phdata, philo->number, "has taken a fork"))
-			return (NULL); 
+			return (ph_philo_quit(philo, 1));
 		pthread_mutex_lock(ph_forks_second(philo));
 		if (ph_utils_printmsg(philo->phdata, philo->number, "has taken a fork"))
-			return (NULL); 
+			return (ph_philo_quit(philo, 2));
 		if (ph_philo_eating(philo))
-			return (NULL);
+			return (ph_philo_quit(philo, 2));
 		pthread_mutex_unlock(ph_forks_second(philo));
 		pthread_mutex_unlock(ph_forks_first(philo));
 		if (ph_philo_sleeping(philo))
 			return (NULL);
-		if (ph_utils_printmsg(philo->phdata, philo->number, "is thinking"))
-			return (NULL); 
-	}	
-	return (NULL);
-}
-
-int	ph_philo_eating(t_philo *philo)
-{
-	int	last_meal;
-
-	last_meal = 0;
-	if (ph_utils_printmsg(philo->phdata, philo->number, "is eating"))
-		return (1);
-	if (philo->must_eat > 0)
-		philo->must_eat--;
-	if (philo->must_eat == 0)
-	{
-		ph_clock_down(philo->phdata);
-		last_meal = 1;
+		if (ph_philo_thinking(philo))
+			return (NULL);
 	}
-	usleep(philo->time_to_eat * 1000);
-	return (last_meal);
-}
-
-int	ph_philo_sleeping(t_philo *philo)
-{
-	if (ph_utils_printmsg(philo->phdata, philo->number, "is sleeping"))
-		return (1);
-	usleep(philo->time_to_sleep * 1000);
-	return (0);
-}
-
-void	ph_philo_dying(t_philo *philo);
-{		
-	pthread_mutex_lock(philo->phdata->mutex_timeover);
-	phdata->timeover = 0;
-	printf("%ld %d %s died\n", ph_clock_timestamp(phdata), nb);
-	pthread_mutex_unlock(philo->phdata->mutex_timeover);
+	return (NULL);
 }

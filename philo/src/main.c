@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 11:58:05 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/08 11:21:03 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/08 12:03:24 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	main(int argc, char **argv)
 
 	if (argc < 5 || argc > 6)
 	{
-		ft_putendl_fd(ph_return_msg(10), 2);
+		ph_return_putmsg(ph_return_msg(10));
 		return (1);
 	}
 	error = ph_init_phdata(&phdata, argc, argv);

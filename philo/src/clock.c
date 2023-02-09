@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 13:58:47 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/08 10:54:21 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/08 15:04:45 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,18 @@
 
 long int	ph_clock_timestamp(t_phdata *phdata)
 {
-	struct timeval	*tv;
+	struct timeval	tv;
 
-	if (gettimeofday(tv, NULL))
+	if (gettimeofday(&tv, NULL))
 		return (-1);
-	return ((tv->tv_usec / 1000) - phdata->time_start);
+	return ((tv.tv_sec * 1000 + tv.tv_usec / 1000) - phdata->time_start);
 }
 
 void	ph_clock_down(t_phdata *phdata)
 {
 	pthread_mutex_lock(&phdata->mutex_timeover);
-	if (timeover > 0)
-		timeover--;
+	if (phdata->timeover > 0)
+		phdata->timeover--;
 	pthread_mutex_unlock(&phdata->mutex_timeover);
 }
 
@@ -35,7 +35,7 @@ int	ph_clock_running(t_phdata *phdata)
 
 	running = 0;
 	pthread_mutex_lock(&phdata->mutex_timeover);
-	if (timeover != 0)
+	if (phdata->timeover != 0)
 		running = 1;
 	pthread_mutex_unlock(&phdata->mutex_timeover);
 	return (running);

@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 17:41:50 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/08 11:39:38 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/09 09:57:32 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,14 @@ int	ph_return_error(t_phdata *phdata, int error)
 	if (error)
 		ph_return_putmsg(ph_return_msg(error));
 	i = -1;
-	while (i++ < phdata->nb_of_philo)
-		pthread_mutex_destroy(phdata->ware[i]);
-	pthread_mutex_destroy(phdata->mutex_timeover);
+	while (++i < phdata->nb_of_philo)
+	{
+		if (NULL != phdata->ware)
+			pthread_mutex_destroy(&phdata->ware[i]);
+		if (NULL != phdata->akademia)
+			pthread_mutex_destroy(&phdata->akademia[i].mutex_last_meal);
+	}
+	pthread_mutex_destroy(&phdata->mutex_timeover);
 	free(phdata->akademia);
 	free(phdata->ware);
 	return (error);
@@ -31,7 +36,7 @@ char	*ph_return_msg(int error)
 {
 	char	*msg[MSG_NB];
 
-	if (error > MSG_NB || < 0)
+	if (error > MSG_NB || error < 0)
 		error = MSG_NB;
 	msg[0] = "";
 	msg[1] = "Error: first argument invalid";
@@ -43,7 +48,7 @@ char	*ph_return_msg(int error)
 	msg[7] = "Error: akademia malloc error";
 	msg[8] = "Error: ware malloc error";
 	msg[9] = "Error: ware mutex error";
-	msg[10] = "Error: five or six arguments required";
+	msg[10] = "Error: four or five arguments required";
 	msg[11] = "Error: pthread_init error";
 	msg[12] = "Error";
 	return (msg[error]);
@@ -58,5 +63,4 @@ void	ph_return_putmsg(char *str)
 		len++;
 	write(2, str, len);
 	write(2, "\n", 1);
-}
 }
