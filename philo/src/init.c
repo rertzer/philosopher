@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 09:09:29 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/09 10:35:02 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/09 11:29:02 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,13 @@ int	ph_init_akademia(t_phdata *phdata)
 	i = -1;
 	while (++i < phdata->nb_of_philo)
 	{
-		if (ph_init_philo(phdata, i))
+		if (ph_init_philo(phdata, i, think))
 			return (1);
 	}
 	return (0);
 }
 
-int	ph_init_philo(t_phdata *phdata, int i)
+int	ph_init_philo(t_phdata *phdata, int i, int think)
 {
 	phdata->akademia[i].number = i + 1;
 	phdata->akademia[i].must_eat = phdata->must_eat;

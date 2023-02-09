@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 11:37:47 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/09 10:40:49 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/09 11:29:39 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_phdata
 	int				time_to_sleep;
 	int				must_eat;
 	int				timeover;
-	long in			time_start;
+	long int		time_start;
 	struct s_philo	*akademia;
 	pthread_mutex_t	mutex_timeover;
 	pthread_mutex_t	*ware;
@@ -82,7 +82,7 @@ int				ph_clock_running(t_phdata *phdata);
 /* init */
 int				ph_init_phdata(t_phdata *phdata, int argc, char **argv);
 int				ph_init_akademia(t_phdata *phdata);
-int				ph_init_philo(t_phdata *phdata, int i);
+int				ph_init_philo(t_phdata *phdata, int i, int think);
 int				ph_init_ware(t_phdata *phdata);
 /* return */
 int				ph_return_error(t_phdata *phdata, int error);
