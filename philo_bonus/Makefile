@@ -1,7 +1,7 @@
 CC = gcc
 FLAGS = -Wall -Wextra -Werror
 
-NAME = philo
+NAME = philo_bonus
 
 SRC_DIR = src/
 
@@ -28,10 +28,10 @@ all: $(NAME)
 
 
 $(MD_OBJ_DIR)%.o: $(SRC_DIR)%.c
-	$(CC) $(FLAGS) -c $< -o $@ -I $(INC_DIR) 
+	$(CC) $(FLAGS) -g -c $< -o $@ -I $(INC_DIR) 
 
 $(NAME): $(MD_OBJ_DIR) $(OBJS)
-	$(CC) $(FLAGS) -o  $@ $(OBJS)
+	$(CC) $(FLAGS) -g -o -lrt $@ $(OBJS)
 
 $(MD_OBJ_DIR):
 	mkdir  $(MD_OBJ_DIR)
