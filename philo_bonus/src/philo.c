@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 12:58:56 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/13 10:55:43 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/13 17:07:03 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,19 +38,12 @@ void	ph_philo_symposium(t_phdata *phdata, t_philo *philo)
 {
 	while (0 != philo->must_eat)
 	{
-		ph_semaphore_wait(phdata, philo, phdata->table);
-		ph_semaphore_wait(phdata, philo, phdata->ware);
+		ph_philo_taking(phdata, philo);
 		ph_clock_ontime(phdata, philo);
-		ph_utils_printmsg(phdata, philo->number, "has taken a fork");
-		ph_semaphore_wait(phdata, philo, phdata->ware);
-		ph_clock_ontime(phdata, philo);
-		ph_utils_printmsg(phdata, philo->number, "has taken a fork");
-		ph_semaphore_post(phdata, philo, phdata->table);
 		ph_philo_eating(phdata, philo);
 		ph_clock_ontime(phdata, philo);
-		ph_semaphore_post(phdata, philo, phdata->ware);
-		ph_semaphore_post(phdata, philo, phdata->ware);
 		ph_philo_sleeping(phdata, philo);
+		ph_clock_ontime(phdata, philo);
 		ph_philo_thinking(phdata, philo);
 		ph_clock_ontime(phdata, philo);
 	}

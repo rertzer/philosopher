@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 13:39:29 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/13 12:41:24 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/13 17:10:04 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 # include <errno.h>
 # include <fcntl.h>
 
+# define DP fprintf(stderr, "%s %d\n", __FILE__, __LINE__);
+
 /* define */
 # define MSG_NB 12
 # define WARE_NAME	"silverware"
@@ -42,6 +44,7 @@ typedef struct s_phdata
 	int			time_to_sleep;
 	int			time_to_think;
 	int			must_eat;
+	int			fork_nb;
 	sem_t		*ware;
 	sem_t		*table;
 	sem_t		*speeking;
@@ -68,6 +71,7 @@ void		ph_philo_start(t_phdata *phdata, int i);
 void		ph_philo_soliloquy(t_phdata *phdata, t_philo *philo);
 void		ph_philo_symposium(t_phdata *phdata, t_philo *philo);
 /* philo life */
+void		ph_philo_taking(t_phdata *phdata, t_philo *philo);
 void		ph_philo_thinking(t_phdata *phdata, t_philo *philo);
 void		ph_philo_eating(t_phdata *phdata, t_philo *philo);
 void		ph_philo_sleeping(t_phdata *phdata, t_philo *philo);
@@ -76,6 +80,7 @@ void		ph_philo_dying(t_phdata *phdata, t_philo *philo);
 sem_t		*ph_semaphore_open(t_phdata *phdata, char *name, int size);
 void		ph_semaphore_wait(t_phdata *phdata, t_philo *philo, sem_t *sema);
 void		ph_semaphore_post(t_phdata *phdata, t_philo *philo, sem_t *sema);
+void		ph_semaphore_giveback(t_phdata *phdata, t_philo *philo);
 /* clock */
 long int	ph_clock_timestamp(t_phdata *phdata);
 void		ph_clock_sleep(t_phdata *phdata, t_philo *philo, int sleep_time);

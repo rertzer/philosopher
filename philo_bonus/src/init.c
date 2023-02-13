@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 09:09:29 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/13 10:51:25 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/13 16:30:58 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	ph_init_phdata(t_phdata *phdata, int argc, char **argv)
 				(phdata->time_to_eat + phdata->time_to_sleep)) / 2;
 	if (phdata->time_to_think < 0)
 		phdata->time_to_think = 0;
+	phdata->fork_nb = phdata->nb_of_philo;
 	phdata->time_start = 0;
 	phdata->time_start = ph_clock_timestamp(phdata);
 	phdata->ware = ph_semaphore_open(phdata, WARE_NAME, phdata->nb_of_philo);
