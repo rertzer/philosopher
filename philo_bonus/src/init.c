@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 09:09:29 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/11 10:49:04 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/13 10:51:25 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ void	ph_init_phdata(t_phdata *phdata, int argc, char **argv)
 		phdata->time_to_think = 0;
 	phdata->time_start = 0;
 	phdata->time_start = ph_clock_timestamp(phdata);
-	phdata->ware = ph_semaphore_open(WARE_NAME, phdata->nb_of_philo)
-	phdata->table = ph_semaphore_open(TABLE_NAME, 1);
-	phdata->speeking = ph_semaphore_open(SPEEKING_NAME, 1);
+	phdata->ware = ph_semaphore_open(phdata, WARE_NAME, phdata->nb_of_philo);
+	phdata->table = ph_semaphore_open(phdata, TABLE_NAME, 1);
+	phdata->speeking = ph_semaphore_open(phdata, SPEEKING_NAME, 1);
 	ph_init_akademia(phdata);
 }
 

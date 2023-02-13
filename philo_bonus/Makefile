@@ -10,15 +10,15 @@ MD_OBJ_DIR = obj/
 INC_DIR = includes/
 
 SOURCES = clock.c \
-	forks.c \
-	init.c \
-	main.c \
-	parsing.c \
-	philo.c \
-	philo_life.c \
-	return.c \
-	run.c \
-	utils.c
+		exit.c \
+		init.c \
+		main.c \
+		parsing.c \
+		philo.c \
+		philo_life.c \
+		run.c \
+		semaphore.c \
+		utils.c
 
 OBJ = $(SOURCES:.c=.o)
 
@@ -31,7 +31,7 @@ $(MD_OBJ_DIR)%.o: $(SRC_DIR)%.c
 	$(CC) $(FLAGS) -g -c $< -o $@ -I $(INC_DIR) 
 
 $(NAME): $(MD_OBJ_DIR) $(OBJS)
-	$(CC) $(FLAGS) -g -o -lrt $@ $(OBJS)
+	$(CC) $(FLAGS) -g -lrt -o $@ $(OBJS)
 
 $(MD_OBJ_DIR):
 	mkdir  $(MD_OBJ_DIR)

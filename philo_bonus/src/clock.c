@@ -6,11 +6,11 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 13:58:47 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/11 11:10:17 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/13 10:23:55 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 long int	ph_clock_timestamp(t_phdata *phdata)
 {
@@ -24,7 +24,6 @@ long int	ph_clock_timestamp(t_phdata *phdata)
 void	ph_clock_sleep(t_phdata *phdata, t_philo *philo, int sleep_time)
 {
 	long int	start;
-	long int	time;
 	long int	end;
 
 	start = ph_clock_timestamp(phdata);

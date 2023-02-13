@@ -6,13 +6,28 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 16:35:20 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/11 12:10:15 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/13 12:24:51 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-void	ph_exit_kill_all(t_phdata *phdata, pid_t pid)
+void	ph_exit_kill_all(t_phdata *phdata, int philo_nb)
+{
+	int	i;
+
+	i = -1;
+	while (++i < philo_nb)
+	{
+		if (-1 == kill(phdata->akademia[i], SIGTERM))
+			ph_exit_error(phdata, "kill error");
+	}
+	i = -1;
+	while (++i < philo_nb)
+		wait(NULL);
+}
+
+void	ph_exit_kill_all_others(t_phdata *phdata, pid_t pid)
 {
 	int	i;
 
@@ -21,14 +36,16 @@ void	ph_exit_kill_all(t_phdata *phdata, pid_t pid)
 	{
 		if (phdata->akademia[i] == pid)
 			continue ;
-		if (-1 == kill(phdata->akademia[i], TERM))
-			ph_exit_error(phdata "kill error");
+		if (-1 == kill(phdata->akademia[i], SIGTERM))
+			ph_exit_error(phdata, "kill error");
 	}
+	i = -1;
+	while (++i < phdata->nb_of_philo - 1)
+		wait(NULL);
 }
 
 void	ph_exit_error(t_phdata *phdata, char *msg)
 {
-	int	i;
 	if (msg)
 		ph_utils_errormsg(phdata, msg);
 	free(phdata->akademia);

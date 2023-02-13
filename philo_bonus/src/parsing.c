@@ -6,11 +6,11 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 09:30:16 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/11 10:54:05 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/13 09:17:25 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 int	ph_parsing_atoi(t_phdata *phdata, char *str)
 {

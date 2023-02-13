@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 11:58:05 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/11 10:37:13 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/13 10:31:05 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,6 @@ int	main(int argc, char **argv)
 	}
 	ph_init_phdata(&phdata, argc, argv);
 	ph_run_start(&phdata);
-	ph_exit_error(phdata, NULL);
+	ph_exit_error(&phdata, NULL);
 	return (0);
 }
