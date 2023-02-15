@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 16:35:20 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/15 16:54:27 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/15 18:37:37 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,15 @@ void	ph_exit_error(t_phdata *phdata, char *msg)
 {
 	free(phdata->akademia);
 	phdata->akademia = NULL;
+	if (msg)
+	{
+		ph_utils_errormsg(phdata, msg);
+		exit(1);
+	}
 	if (-1 != sem_close(phdata->ware))
 		sem_unlink(WARE_NAME);
 	if (-1 != sem_close(phdata->table))
 		sem_unlink(TABLE_NAME);
 	if (-1 != sem_close(phdata->speeking))
 		sem_unlink(SPEEKING_NAME);
-	if (msg)
-	{
-		ph_utils_errormsg(phdata, msg);
-		exit(1);
-	}
 }

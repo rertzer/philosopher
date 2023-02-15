@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 13:39:29 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/15 16:55:27 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/15 18:30:30 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,12 @@ void		ph_run_killer(t_phdata *phdata);
 void		ph_philo_start(t_phdata *phdata, int i);
 void		ph_philo_killer(t_phdata *phdata);
 void		*ph_philo_life_start(void *data);
-int			ph_philo_soliloquy(t_phdata *phdata);
-int			ph_philo_symposium(t_phdata *phdata);
+void		ph_philo_soliloquy(t_phdata *phdata);
+void		ph_philo_symposium(t_phdata *phdata);
 /* philo life */
 void		ph_philo_taking(t_phdata *phdata);
 void		ph_philo_thinking(t_phdata *phdata);
-int			ph_philo_eating(t_phdata *phdata);
+void		ph_philo_eating(t_phdata *phdata);
 void		ph_philo_sleeping(t_phdata *phdata);
 /* semaphore */
 sem_t		*ph_semaphore_open(t_phdata *phdata, char *name, int size);
@@ -83,6 +83,7 @@ void		ph_clock_sleep(t_phdata *phdata, int sleep_time);
 void		ph_clock_ontime(t_phdata *phdata);
 /* init */
 void		ph_init_phdata(t_phdata *phdata, int argc, char **argv);
+void		ph_init_semaphores(t_phdata *phdata);
 void		ph_init_akademia(t_phdata *phdata);
 void		ph_init_philo(t_phdata *phdata, int i);
 /* exit */

@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 10:12:33 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/15 16:31:30 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/15 18:17:51 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,8 @@ void	ph_philo_thinking(t_phdata *phdata)
 	ph_clock_sleep(phdata, phdata->time_to_think);
 }
 
-int	ph_philo_eating(t_phdata *phdata)
+void	ph_philo_eating(t_phdata *phdata)
 {
-	int	ret;
-
-	ret = 0;
 	ph_utils_printmsg(phdata, "is eating");
 	ph_semaphore_wait(phdata, phdata->speeking);
 	phdata->last_meal = ph_clock_timestamp(phdata);
@@ -43,9 +40,8 @@ int	ph_philo_eating(t_phdata *phdata)
 	if (phdata->must_eat > 0)
 		phdata->must_eat--;
 	if (phdata->must_eat == 0)
-		ret = 1;
+		exit(1);
 	ph_semaphore_post(phdata, phdata->speeking);
-	return (ret);
 }
 
 void	ph_philo_sleeping(t_phdata *phdata)
