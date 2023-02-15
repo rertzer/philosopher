@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 09:09:29 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/13 16:30:58 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/15 15:51:33 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ph_init_phdata(t_phdata *phdata, int argc, char **argv)
 	memset(phdata, 0, sizeof(t_phdata));
 	phdata->nb_of_philo = ph_parsing_atoi(phdata, argv[1]);
 	if (0 == phdata->nb_of_philo)
-		ph_exit_error(phdata, "zero philososphe");
+		ph_exit_error(phdata, "zero philosospher");
 	phdata->time_to_die = ph_parsing_atoi(phdata, argv[2]);
 	phdata->time_to_eat = ph_parsing_atoi(phdata, argv[3]);
 	phdata->time_to_sleep = ph_parsing_atoi(phdata, argv[4]);
@@ -36,6 +36,7 @@ void	ph_init_phdata(t_phdata *phdata, int argc, char **argv)
 	phdata->table = ph_semaphore_open(phdata, TABLE_NAME, 1);
 	phdata->speeking = ph_semaphore_open(phdata, SPEEKING_NAME, 1);
 	ph_init_akademia(phdata);
+	phdata->pthread = 0;
 }
 
 void	ph_init_akademia(t_phdata *phdata)
@@ -46,9 +47,11 @@ void	ph_init_akademia(t_phdata *phdata)
 	memset(phdata->akademia, 0, sizeof(pid_t) * phdata->nb_of_philo);
 }
 
-void	ph_init_philo(t_phdata *phdata, t_philo *philo, int i)
+void	ph_init_philo(t_phdata *phdata, int i)
 {
-	philo->number = i + 1;
-	philo->must_eat = phdata->must_eat;
-	philo->last_meal = ph_clock_timestamp(phdata);
+	phdata->number = i + 1;
+	phdata->must_eat = phdata->must_eat;
+	ph_semaphore_wait(phdata, phdata->speeking);
+	phdata->last_meal = ph_clock_timestamp(phdata);
+	ph_semaphore_post(phdata, phdata->speeking);
 }

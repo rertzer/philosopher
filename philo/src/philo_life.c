@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 10:12:33 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/09 10:12:57 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/15 17:10:46 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	ph_philo_thinking(t_philo *philo)
 {
 	if (ph_utils_printmsg(philo->phdata, philo->number, "is thinking"))
 		return (1);
-	usleep(philo->time_to_think * 1000);
+	usleep(philo->phdata->time_to_think * 1000);
 	return (0);
 }
 
@@ -37,7 +37,7 @@ int	ph_philo_eating(t_philo *philo)
 		ph_clock_down(philo->phdata);
 		satiated = 1;
 	}
-	usleep(philo->time_to_eat * 1000);
+	usleep(philo->phdata->time_to_eat * 1000);
 	return (satiated);
 }
 
@@ -45,7 +45,7 @@ int	ph_philo_sleeping(t_philo *philo)
 {
 	if (ph_utils_printmsg(philo->phdata, philo->number, "is sleeping"))
 		return (1);
-	usleep(philo->time_to_sleep * 1000);
+	usleep(philo->phdata->time_to_sleep * 1000);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 12:58:56 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/09 10:41:57 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/15 17:21:34 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	*ph_philo_start(void *void_philo)
 	t_philo	*philo;
 
 	philo = (t_philo *)void_philo;
-	if (-1 == philo->time_to_think)
+	if (-1 == philo->phdata->time_to_think)
 		return (ph_philo_soliloquy(philo));
 	return (ph_philo_symposium(philo));
 }

@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 13:58:47 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/13 10:23:55 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/15 15:12:04 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ long int	ph_clock_timestamp(t_phdata *phdata)
 	return ((tv.tv_sec * 1000 + tv.tv_usec / 1000) - phdata->time_start);
 }
 
-void	ph_clock_sleep(t_phdata *phdata, t_philo *philo, int sleep_time)
+void	ph_clock_sleep(t_phdata *phdata, int sleep_time)
 {
 	long int	start;
 	long int	end;
@@ -31,17 +31,19 @@ void	ph_clock_sleep(t_phdata *phdata, t_philo *philo, int sleep_time)
 	while (ph_clock_timestamp(phdata) < end)
 	{
 		usleep(100);
-		ph_clock_ontime(phdata, philo);
+		ph_clock_ontime(phdata);
 	}
 }
 
-void	ph_clock_ontime(t_phdata *phdata, t_philo *philo)
+void	ph_clock_ontime(t_phdata *phdata)
 {
-	if (ph_clock_timestamp(phdata) > philo->last_meal + phdata->time_to_die)
+	if (-1 == sem_wait(phdata->speeking))
+		ph_exit_error(phdata, "sem_wait error");
+	if (ph_clock_timestamp(phdata) > phdata->last_meal + phdata->time_to_die)
 	{
-		if (-1 == sem_wait(phdata->speeking))
-			ph_exit_error(phdata, "sem_wait error");
-		printf("%ld %d died\n", ph_clock_timestamp(phdata), philo->number);
+		printf("%ld %d died\n", ph_clock_timestamp(phdata), phdata->number);
 		exit(1);
 	}
+	if (-1 == sem_post(phdata->speeking))
+		ph_exit_error(phdata, "sem_post error");
 }

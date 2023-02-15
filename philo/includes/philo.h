@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 11:37:47 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/13 14:38:00 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/15 17:30:08 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <limits.h>
 
 /* define */
-# define MSG_NB 12
+# define MSG_NB 13
 
 struct	s_philo;
 
@@ -32,6 +32,7 @@ typedef struct s_phdata
 	int				time_to_die;
 	int				time_to_eat;
 	int				time_to_sleep;
+	int				time_to_think;
 	int				must_eat;
 	int				timeover;
 	long int		time_start;
@@ -43,10 +44,6 @@ typedef struct s_phdata
 typedef struct s_philo
 {
 	int				number;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
-	int				time_to_think;
 	int				must_eat;
 	long int		last_meal;
 	pthread_mutex_t	mutex_last_meal;
@@ -81,8 +78,9 @@ void			ph_clock_down(t_phdata *phdata);
 int				ph_clock_running(t_phdata *phdata);
 /* init */
 int				ph_init_phdata(t_phdata *phdata, int argc, char **argv);
+int				ph_init_phdata_etc(t_phdata *phdata);
 int				ph_init_akademia(t_phdata *phdata);
-int				ph_init_philo(t_phdata *phdata, int i, int think);
+int				ph_init_philo(t_phdata *phdata, int i);
 int				ph_init_ware(t_phdata *phdata);
 /* return */
 int				ph_return_error(t_phdata *phdata, int error);

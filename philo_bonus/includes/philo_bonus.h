@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 13:39:29 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/13 17:10:04 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/15 16:55:27 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,9 @@
 # include <limits.h>
 # include <signal.h>
 # include <semaphore.h>
+# include <pthread.h>
 # include <errno.h>
 # include <fcntl.h>
-
-# define DP fprintf(stderr, "%s %d\n", __FILE__, __LINE__);
 
 /* define */
 # define MSG_NB 12
@@ -45,19 +44,15 @@ typedef struct s_phdata
 	int			time_to_think;
 	int			must_eat;
 	int			fork_nb;
+	int			number;
+	long int	last_meal;
 	sem_t		*ware;
 	sem_t		*table;
 	sem_t		*speeking;
 	pid_t		*akademia;
+	pthread_t	pthread;
 
 }	t_phdata;
-
-typedef struct s_philo
-{
-	long int		last_meal;
-	int				number;
-	int				must_eat;
-}	t_philo;
 
 /* main */
 /* parsing */
@@ -68,32 +63,32 @@ void		ph_run_start(t_phdata *phdata);
 void		ph_run_killer(t_phdata *phdata);
 /* philo */
 void		ph_philo_start(t_phdata *phdata, int i);
-void		ph_philo_soliloquy(t_phdata *phdata, t_philo *philo);
-void		ph_philo_symposium(t_phdata *phdata, t_philo *philo);
+void		ph_philo_killer(t_phdata *phdata);
+void		*ph_philo_life_start(void *data);
+int			ph_philo_soliloquy(t_phdata *phdata);
+int			ph_philo_symposium(t_phdata *phdata);
 /* philo life */
-void		ph_philo_taking(t_phdata *phdata, t_philo *philo);
-void		ph_philo_thinking(t_phdata *phdata, t_philo *philo);
-void		ph_philo_eating(t_phdata *phdata, t_philo *philo);
-void		ph_philo_sleeping(t_phdata *phdata, t_philo *philo);
-void		ph_philo_dying(t_phdata *phdata, t_philo *philo);
+void		ph_philo_taking(t_phdata *phdata);
+void		ph_philo_thinking(t_phdata *phdata);
+int			ph_philo_eating(t_phdata *phdata);
+void		ph_philo_sleeping(t_phdata *phdata);
 /* semaphore */
 sem_t		*ph_semaphore_open(t_phdata *phdata, char *name, int size);
-void		ph_semaphore_wait(t_phdata *phdata, t_philo *philo, sem_t *sema);
-void		ph_semaphore_post(t_phdata *phdata, t_philo *philo, sem_t *sema);
-void		ph_semaphore_giveback(t_phdata *phdata, t_philo *philo);
+void		ph_semaphore_wait(t_phdata *phdata, sem_t *sema);
+void		ph_semaphore_post(t_phdata *phdata, sem_t *sema);
+void		ph_semaphore_giveback(t_phdata *phdata);
 /* clock */
 long int	ph_clock_timestamp(t_phdata *phdata);
-void		ph_clock_sleep(t_phdata *phdata, t_philo *philo, int sleep_time);
-void		ph_clock_ontime(t_phdata *phdata, t_philo *philo);
+void		ph_clock_sleep(t_phdata *phdata, int sleep_time);
+void		ph_clock_ontime(t_phdata *phdata);
 /* init */
 void		ph_init_phdata(t_phdata *phdata, int argc, char **argv);
 void		ph_init_akademia(t_phdata *phdata);
-void		ph_init_philo(t_phdata *phdata, t_philo *philo, int i);
+void		ph_init_philo(t_phdata *phdata, int i);
 /* exit */
 void		ph_exit_error(t_phdata *phdata, char *msg);
-void		ph_exit_kill_all(t_phdata *phdata, int philo_nb);
-void		ph_exit_kill_all_others(t_phdata *phdata, pid_t pid);
+void		ph_exit_kill_all(t_phdata *phdata, int philo_nb, pid_t pid);
 /* utils */
-void		ph_utils_printmsg(t_phdata *phdata, int nb, char *str);
+void		ph_utils_printmsg(t_phdata *phdata, char *str);
 void		ph_utils_errormsg(t_phdata *phdata, char *str);
 #endif

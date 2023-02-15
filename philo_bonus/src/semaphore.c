@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 13:37:40 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/13 17:14:52 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/15 13:57:32 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,25 +32,20 @@ sem_t	*ph_semaphore_open(t_phdata *phdata, char *name, int size)
 	return (sema);
 }
 
-void	ph_semaphore_wait(t_phdata *phdata, t_philo *philo, sem_t *sema)
+void	ph_semaphore_wait(t_phdata *phdata, sem_t *sema)
 {
-	ph_clock_ontime(phdata, philo);
 	if (-1 == sem_wait(sema))
 		ph_exit_error(phdata, "sem_wait error");
 }
 
-void	ph_semaphore_post(t_phdata *phdata, t_philo *philo, sem_t *sema)
+void	ph_semaphore_post(t_phdata *phdata, sem_t *sema)
 {
-	ph_clock_ontime(phdata, philo);
 	if (-1 == sem_post(sema))
 		ph_exit_error(phdata, "sem_post error");
 }
 
-void	ph_semaphore_giveback(t_phdata *phdata, t_philo *philo)
+void	ph_semaphore_giveback(t_phdata *phdata)
 {
-	ph_semaphore_wait(phdata, philo, phdata->table);
-	ph_semaphore_post(phdata, philo, phdata->ware);
-	ph_semaphore_post(phdata, philo, phdata->ware);
-	phdata->fork_nb += 2;
-	ph_semaphore_post(phdata, philo, phdata->table);
+	ph_semaphore_post(phdata, phdata->ware);
+	ph_semaphore_post(phdata, phdata->ware);
 }
