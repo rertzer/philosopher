@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 13:37:40 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/15 18:35:16 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/16 18:43:48 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,10 @@ sem_t	*ph_semaphore_open(t_phdata *phdata, char *name, int size)
 {
 	sem_t	*sema;
 
+	sem_unlink(WARE_NAME);
+	sem_unlink(TABLE_NAME);
+	sem_unlink(SPEEKING_NAME);
+	sem_unlink(ALIFE_NAME);
 	errno = 0;
 	sema = sem_open(name, O_RDWR | O_CREAT | O_EXCL, 0644, (unsigned int) size);
 	if (SEM_FAILED == sema)

@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 10:47:03 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/15 16:17:59 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/16 18:55:04 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ph_run_start(t_phdata *phdata)
 		pid = fork();
 		if (-1 == pid)
 		{
-			ph_exit_kill_all(phdata, i, 0);
+			ph_exit_kill_all(phdata, i);
 			ph_exit_error(phdata, "fork error");
 		}
 		else if (0 == pid)
@@ -36,19 +36,13 @@ void	ph_run_start(t_phdata *phdata)
 
 void	ph_run_killer(t_phdata *phdata)
 {
-	int		i;
-	int		status;
-	pid_t	pid;
+	int	i;
 
-	status = 0;
+	ph_semaphore_wait(phdata, phdata->alife);
+	ph_exit_kill_all(phdata, phdata->nb_of_philo);
 	i = -1;
 	while (++i < phdata->nb_of_philo)
 	{
-		pid = waitpid(-1, &status, 0);
-		if ((status & 0xff00) >> 8)
-		{
-			ph_exit_kill_all(phdata, phdata->nb_of_philo, pid);
-			break ;
-		}
+		waitpid(-1, NULL, 0);
 	}
 }

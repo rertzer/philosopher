@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 09:09:29 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/15 18:31:47 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/16 18:09:57 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	ph_init_phdata(t_phdata *phdata, int argc, char **argv)
 void	ph_init_semaphores(t_phdata *phdata)
 {
 	phdata->ware = ph_semaphore_open(phdata, WARE_NAME, phdata->nb_of_philo);
+	phdata->alife = ph_semaphore_open(phdata, ALIFE_NAME, phdata->nb_of_philo);
 	phdata->table = ph_semaphore_open(phdata, TABLE_NAME, 1);
 	phdata->speeking = ph_semaphore_open(phdata, SPEEKING_NAME, 1);
 }

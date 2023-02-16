@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 13:58:47 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/15 15:12:04 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/16 18:37:34 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,18 @@ void	ph_clock_sleep(t_phdata *phdata, int sleep_time)
 
 void	ph_clock_ontime(t_phdata *phdata)
 {
+	int i;
+
 	if (-1 == sem_wait(phdata->speeking))
 		ph_exit_error(phdata, "sem_wait error");
 	if (ph_clock_timestamp(phdata) > phdata->last_meal + phdata->time_to_die)
 	{
 		printf("%ld %d died\n", ph_clock_timestamp(phdata), phdata->number);
-		exit(1);
+		i = -1;
+		while (++i < phdata->nb_of_philo)
+			ph_semaphore_post(phdata, phdata->alife);
+		while (1)
+			usleep(1000000);
 	}
 	if (-1 == sem_post(phdata->speeking))
 		ph_exit_error(phdata, "sem_post error");

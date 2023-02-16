@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 12:58:56 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/15 18:19:36 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/16 18:55:50 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	ph_philo_start(t_phdata *phdata, int i)
 {
 	free(phdata->akademia);
 	phdata->akademia = NULL;
+	ph_semaphore_wait(phdata, phdata->alife);
 	ph_init_philo(phdata, i);
 	if (pthread_create(&phdata->pthread, NULL, ph_philo_life_start, phdata))
 		ph_exit_error(phdata, "pthread_create error");

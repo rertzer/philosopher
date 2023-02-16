@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 10:12:33 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/15 18:17:51 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/16 18:37:18 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,11 @@ void	ph_philo_eating(t_phdata *phdata)
 	if (phdata->must_eat > 0)
 		phdata->must_eat--;
 	if (phdata->must_eat == 0)
-		exit(1);
+	{
+		ph_semaphore_post(phdata, phdata->alife);
+		while (1)
+			usleep(1000000);
+	}
 	ph_semaphore_post(phdata, phdata->speeking);
 }
 

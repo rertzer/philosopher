@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 13:39:29 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/15 18:30:30 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/16 18:21:01 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # define WARE_NAME	"silverware"
 # define TABLE_NAME "roundtable"
 # define SPEEKING_NAME "herald"
+# define ALIFE_NAME "survivors"
 
 typedef struct s_phdata
 {
@@ -49,6 +50,7 @@ typedef struct s_phdata
 	sem_t		*ware;
 	sem_t		*table;
 	sem_t		*speeking;
+	sem_t		*alife;
 	pid_t		*akademia;
 	pthread_t	pthread;
 
@@ -88,7 +90,7 @@ void		ph_init_akademia(t_phdata *phdata);
 void		ph_init_philo(t_phdata *phdata, int i);
 /* exit */
 void		ph_exit_error(t_phdata *phdata, char *msg);
-void		ph_exit_kill_all(t_phdata *phdata, int philo_nb, pid_t pid);
+void		ph_exit_kill_all(t_phdata *phdata, int philo_nb);
 /* utils */
 void		ph_utils_printmsg(t_phdata *phdata, char *str);
 void		ph_utils_errormsg(t_phdata *phdata, char *str);
