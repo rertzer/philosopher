@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 13:39:29 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/16 18:21:01 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/19 12:57:58 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@
 # include <fcntl.h>
 
 /* define */
-# define MSG_NB 12
 # define WARE_NAME	"silverware"
 # define TABLE_NAME "roundtable"
 # define SPEEKING_NAME "herald"
@@ -76,12 +75,12 @@ void		ph_philo_eating(t_phdata *phdata);
 void		ph_philo_sleeping(t_phdata *phdata);
 /* semaphore */
 sem_t		*ph_semaphore_open(t_phdata *phdata, char *name, int size);
+void		ph_semaphore_close(t_phdata *phdata);
 void		ph_semaphore_wait(t_phdata *phdata, sem_t *sema);
 void		ph_semaphore_post(t_phdata *phdata, sem_t *sema);
 void		ph_semaphore_giveback(t_phdata *phdata);
 /* clock */
 long int	ph_clock_timestamp(t_phdata *phdata);
-void		ph_clock_sleep(t_phdata *phdata, int sleep_time);
 void		ph_clock_ontime(t_phdata *phdata);
 /* init */
 void		ph_init_phdata(t_phdata *phdata, int argc, char **argv);
@@ -90,8 +89,10 @@ void		ph_init_akademia(t_phdata *phdata);
 void		ph_init_philo(t_phdata *phdata, int i);
 /* exit */
 void		ph_exit_error(t_phdata *phdata, char *msg);
-void		ph_exit_kill_all(t_phdata *phdata, int philo_nb);
+void		ph_exit_hemlock(t_phdata *phdata, char *msg);
+void		ph_exit_kill_all(t_phdata *phdata, int philo_nbo);
+void		ph_exit_parsing(char *msg);
+void		ph_exit_sema(sem_t *sema, char *name);
 /* utils */
 void		ph_utils_printmsg(t_phdata *phdata, char *str);
-void		ph_utils_errormsg(t_phdata *phdata, char *str);
 #endif

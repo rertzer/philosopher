@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/06 12:58:56 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/16 18:55:50 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/19 11:54:11 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,29 +16,21 @@ void	ph_philo_start(t_phdata *phdata, int i)
 {
 	free(phdata->akademia);
 	phdata->akademia = NULL;
-	ph_semaphore_wait(phdata, phdata->alife);
 	ph_init_philo(phdata, i);
 	if (pthread_create(&phdata->pthread, NULL, ph_philo_life_start, phdata))
-		ph_exit_error(phdata, "pthread_create error");
-	if (0 != pthread_detach(phdata->pthread))
-		ph_exit_error(phdata, "pthread detach error");
-	ph_philo_killer(phdata);
+		ph_exit_hemlock(phdata, "pthread_create error");
+	else if (0 != pthread_detach(phdata->pthread))
+		ph_exit_hemlock(phdata, "pthread detach error");
+	else
+		ph_philo_killer(phdata);
 }
 
 void	ph_philo_killer(t_phdata *phdata)
 {
-	int	must;
-
-	ph_semaphore_wait(phdata, phdata->speeking);
-	must = phdata->must_eat;
-	ph_semaphore_post(phdata, phdata->speeking);
-	while (0 != must)
+	while (1)
 	{
 		ph_clock_ontime(phdata);
 		usleep(100);
-		ph_semaphore_wait(phdata, phdata->speeking);
-		must = phdata->must_eat;
-		ph_semaphore_post(phdata, phdata->speeking);
 	}
 }
 
@@ -56,7 +48,7 @@ void	*ph_philo_life_start(void *data)
 
 void	ph_philo_soliloquy(t_phdata *phdata)
 {
-	while (0 != phdata->must_eat)
+	while (1)
 	{
 		ph_clock_ontime(phdata);
 		usleep(100);
@@ -65,7 +57,7 @@ void	ph_philo_soliloquy(t_phdata *phdata)
 
 void	ph_philo_symposium(t_phdata *phdata)
 {
-	while (0 != phdata->must_eat)
+	while (1)
 	{
 		ph_philo_taking(phdata);
 		ph_philo_eating(phdata);
